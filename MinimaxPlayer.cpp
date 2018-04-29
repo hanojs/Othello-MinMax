@@ -40,7 +40,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 	int value = 999999;
 
 	for( const auto& x : this->getSuccessorStates(currentBoard)){
-		value = min(value, this->max_value(x));
+		value = min(value, this->max_value(&x));
 	}
 
 	return value;
@@ -92,9 +92,9 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
 	
 	move_vector possibleMoves = currentBoard->get_possible_moves();
 	vector<OthelloBoard> successorStates;
-	successorStates.assign(possibleMoves.size())
+	successorStates.assign(possibleMoves.size());
 
-	i=0;
+	inti=0;
 	for(const auto& x : possibleMoves){ //Iterate through all the tuples in the possible moves
 		successorStates[i].play_move(get<0>(x), get<1>(x), this->symbol); 
 		i++;
@@ -110,17 +110,17 @@ int MinimaxPlayer::getGoodness(OthelloBoard* b) {
 	else if(!b->is_cell_empty(0, 0))
 		goodness -= 10;
 
-	if (b->get_cell(0,3) == this->symbol){
+	if (b->get_cell(0,3) == this->symbol)
 		goodness += 10;
 	else if(!b->is_cell_empty(3, 3))
 		goodness -= 10;
 
-	if (b->get_cell(3,3) == this->symbol){
+	if (b->get_cell(3,3) == this->symbol)
 		goodness += 10;
 	else if(!b->is_cell_empty(3, 3))
 		goodness -= 10;
 	
-	if (b->get_cell(3,0) == this->symbol){
+	if (b->get_cell(3,0) == this->symbol)
 		goodness += 10;
 	else if(!b->is_cell_empty(3, 3))
 		goodness -= 10;
