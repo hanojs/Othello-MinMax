@@ -20,7 +20,6 @@ using std::tuple;
 using std::get;
 
 typedef tuple<int, int> move; //col, row
-typedef tuple<int, int, int> value_move; //value, col, row
 typedef vector<move> move_vector; //vector of moves (col, row)
 
 
@@ -42,7 +41,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	OthelloBoard currentBoard((const OthelloBoard) *b);
 	int bestScore = -999999, currentScore;
 	move bestMove;
-	for( const auto& x : b->get_possible_moves(b)){
+	for( const auto& x : b->get_possible_moves(this->symbol)){
 		currentBoard = *b;
 		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
 		currentScore = this->min_value(currentBoard);
