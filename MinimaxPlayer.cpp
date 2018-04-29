@@ -39,7 +39,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 
 	//Pretty much max function that keeps track of the first-level of moves so we can pass those back
 
-	OthelloBoard currentBoard;
+	OthelloBoard currentBoard(b);
 	int bestScore = -999999, currentScore;
 	move bestMove;
 	for( const auto& x : b->get_possible_moves(b)){
