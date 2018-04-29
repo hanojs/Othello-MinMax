@@ -54,7 +54,7 @@ int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	int value = -999999;
 
 	for( const auto& x : this->getSuccessorStates(currentBoard)){
-		value = max(value, this->min_value(x));
+		value = max(value, this->min_value(&x));
 	}
 
 	return value;
