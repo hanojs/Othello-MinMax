@@ -11,11 +11,13 @@
 #include <vector>
 #include <algorithm>    // std::max
 #include "MinimaxPlayer.h"
+#include "OthelloBoard.h"
 
 using std::vector;
 using std::max;
 using std::min;
 using std::tuple;
+using std::get;
 
 typedef tuple<int, int> move; //col, row
 typedef tuple<int, int, int> value_move; //value, col, row
@@ -38,20 +40,20 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	//Pretty much max function that keeps track of the first-level of moves so we can pass those back
 
 	OthelloBoard currentBoard;
-	int bestScore = -999999;
+	int bestScore = -999999, currentScore;
 	move bestMove;
-	for( const auto& x : this->get_possible_moves(b)){
-		currentBoard = &b;
+	for( const auto& x : b->get_possible_moves(b)){
+		currentBoard = *b;
 		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
-		currentScore = min_value(currentBoard);
+		currentScore = this->min_value(currentBoard);
 		if(currentScore > bestScore){
 			bestScore = currentScore;
 			bestMove  = x;
 		}
 	}
 
-	*col = get<0>(bestMove);
-	*col = get<1>(bestMove);
+	col = get<0>(bestMove);
+	row = get<1>(bestMove);
 
 	return; 
 }
@@ -64,7 +66,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 	int value = 999999;
 
 	for( const auto& x : this->getSuccessorStates(currentBoard)){
-		value = min(value, max_value(x));
+		value = min(value, this->max_value(x));
 	}
 
 	return value;
@@ -78,7 +80,7 @@ int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	int value = -999999;
 
 	for( const auto& x : this->getSuccessorStates(currentBoard)){
-		value = max(value, min_value(x));
+		value = max(value, this->min_value(x));
 	}
 
 	return value;
