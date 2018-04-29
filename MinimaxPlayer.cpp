@@ -33,31 +33,6 @@ MinimaxPlayer::~MinimaxPlayer() {
 }
 
 
-
-void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
-
-	//Pretty much max function that keeps track of the first-level of moves so we can pass those back
-
-	OthelloBoard currentBoard((const OthelloBoard) *b);
-	int bestScore = -999999, currentScore;
-	move bestMove;
-	for( const auto& x : b->get_possible_moves(this->symbol)){
-		currentBoard = *b;
-		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
-		currentScore = this->min_value(currentBoard);
-		if(currentScore > bestScore){
-			bestScore = currentScore;
-			bestMove  = x;
-		}
-	}
-
-	col = get<0>(bestMove);
-	row = get<1>(bestMove);
-
-	return; 
-}
-
-
 int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 	if(!currentBoard->has_legal_moves_remaining(this->symbol)){
 		return getGoodness(currentBoard);
@@ -83,7 +58,33 @@ int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	}
 
 	return value;
+} 
+
+void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
+
+	//Pretty much max function that keeps track of the first-level of moves so we can pass those back
+
+	OthelloBoard currentBoard((const OthelloBoard) *b);
+	int bestScore = -999999, currentScore;
+	move bestMove;
+	for( const auto& x : b->get_possible_moves(this->symbol)){
+		currentBoard = *b;
+		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
+		currentScore = this->min_value(currentBoard);
+		if(currentScore > bestScore){
+			bestScore = currentScore;
+			bestMove  = x;
+		}
+	}
+
+	col = get<0>(bestMove);
+	row = get<1>(bestMove);
+
+	return; 
 }
+
+
+
 
 
 

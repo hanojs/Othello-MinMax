@@ -30,10 +30,10 @@ public:
 	 * Destructor
 	 */
 	virtual ~MinimaxPlayer();
-
-	int getGoodness(OthelloBoard* b);
 	int max_value(OthelloBoard* currentBoard);
 	int min_value(OthelloBoard* currentBoard);
+	int getGoodness(OthelloBoard* b);
+
 
 	vector<OthelloBoard> getSuccessorStates(OthelloBoard* currentBoard);
 	/**
