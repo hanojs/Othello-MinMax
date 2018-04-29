@@ -39,7 +39,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 	}
 	int value = 999999;
 
-	for( const auto& x : this->getSuccessorStates(currentBoard)){
+	for( auto x : this->getSuccessorStates(currentBoard)){
 		value = min(value, this->max_value(&x));
 	}
 
@@ -53,8 +53,8 @@ int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	}
 	int value = -999999;
 
-	for( auto* x : this->getSuccessorStates(currentBoard)){
-		value = max(value, this->min_value(x));
+	for( auto x : this->getSuccessorStates(currentBoard)){
+		value = max(value, this->min_value(&x));
 	}
 
 	return value;
@@ -67,7 +67,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	OthelloBoard currentBoard((OthelloBoard) *b);
 	int bestScore = -999999, currentScore;
 	move bestMove;
-	for( auto* x : b->get_possible_moves(this->symbol)){
+	for( auto& x : b->get_possible_moves(this->symbol)){
 		currentBoard = *b;
 		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
 		currentScore = this->min_value(currentBoard);
@@ -95,8 +95,8 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
 	successorStates.assign(possibleMoves.size());
 
 	inti=0;
-	for(auto* x : possibleMoves){ //Iterate through all the tuples in the possible moves
-		successorStates[i].play_move(get<0>(*x), get<1>(*x), this->symbol); 
+	for(auto x : possibleMoves){ //Iterate through all the tuples in the possible moves
+		successorStates[i].play_move(get<0>(x), get<1>(x), this->symbol); 
 		i++;
 	}
 	return successorStates;
