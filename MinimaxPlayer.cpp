@@ -70,7 +70,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	for( auto& x : b->get_possible_moves(this->symbol)){
 		currentBoard = *b;
 		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
-		currentScore = this->min_value(currentBoard);
+		currentScore = this->min_value(&currentBoard);
 		if(currentScore > bestScore){
 			bestScore = currentScore;
 			bestMove  = x;
