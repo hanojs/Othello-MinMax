@@ -8,6 +8,7 @@
 #include <assert.h>
 #include "OthelloBoard.h"
 #include <tuple>
+#include <utility> //make_pair()
 #include <iostream>
 
 
@@ -204,6 +205,7 @@ vector<tuple<int, int>> OthelloBoard::get_possible_moves(char color) {
 		for (int row = 0; row < this->get_num_rows(); row++)
 			if (this->is_legal_move(col, row, color)){
 				std::cout << "get possible moves Possible mve: Col " << col << " row " << row << std::endl;
-				possible_moves.emplace_back(col, row);
+				tuple<int, int> tempTuple (std::make_pair(col, row));
+				possible_moves.push_back(tempTuple);
 			}
 }	
