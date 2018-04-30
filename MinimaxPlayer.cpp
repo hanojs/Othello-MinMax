@@ -69,7 +69,8 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	int bestScore = -999999, currentScore;
 	move bestMove;
 	cout << "Getting best move... \n" << std::endl;
-	for( auto x : b->get_possible_moves(this->symbol)){
+	for( move x : b->get_possible_moves(this->symbol)){
+
 		cout << "possibleMoves: " << get<0>(x) << " and " <<  get<1>(x) << std::endl;
 		currentBoard = *b;
 		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
