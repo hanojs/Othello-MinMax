@@ -129,10 +129,10 @@ int MinimaxPlayer::getGoodness(OthelloBoard* b) {
 		goodness -= 10;
 	*/
 
-	if(this->symbol == 'O')
-		goodness += (b->count_score('O') - b->count_score('X')) * 2;
+	if(this->symbol == 'X')
+		goodness = (b->count_score('O') - b->count_score('X'));
 	else
-		goodness += (b->count_score('X') - b->count_score('O')) * 2;
+		goodness = (b->count_score('X') - b->count_score('O'));
 
 	return goodness;
 } 
