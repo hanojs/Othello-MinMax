@@ -182,7 +182,7 @@ int OthelloBoard::count_score(char symbol) const {
 }
 
 void OthelloBoard::play_move(int col, int row, char symbol) {
-	std::cout << "Col " << col << " row " << row;
+	std::cout << "\nCol " << col << " row " << row << std::endl;
 	set_cell(col, row, symbol);
 	flip_pieces(col, row, symbol);
 }
