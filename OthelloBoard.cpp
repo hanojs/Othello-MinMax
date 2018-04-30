@@ -209,7 +209,7 @@ vector<tuple<int, int>> OthelloBoard::get_possible_moves(char color) {
 				possible_moves.push_back(tempTuple);
 			}
 	
-	for( move x : possible_moves) {
+	for( tuple<int, int> x : possible_moves) {
 		cout << "Get possible possibleMoves: " << get<0>(x) << " and " <<  get<1>(x) << std::endl;
 	}
 }	
