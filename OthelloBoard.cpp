@@ -210,6 +210,6 @@ vector<tuple<int, int>> OthelloBoard::get_possible_moves(char color) {
 			}
 	
 	for( tuple<int, int> x : possible_moves) {
-		cout << "Get possible possibleMoves: " << get<0>(x) << " and " <<  get<1>(x) << std::endl;
+		std::cout << "Get possible possibleMoves: " << std::get<0>(x) << " and " <<  std::get<1>(x) << std::endl;
 	}
 }	
