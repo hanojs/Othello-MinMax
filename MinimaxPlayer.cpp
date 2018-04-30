@@ -18,6 +18,7 @@ using std::max;
 using std::min;
 using std::tuple;
 using std::get;
+using std::cout;
 
 typedef tuple<int, int> move; //col, row
 typedef vector<move> move_vector; //vector of moves (col, row)
@@ -67,7 +68,9 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	OthelloBoard currentBoard((OthelloBoard) *b);
 	int bestScore = -999999, currentScore;
 	move bestMove;
+	cout << "Getting best move... ";
 	for( auto&& x : b->get_possible_moves(this->symbol)){
+		cout << "possibleMoves";
 		currentBoard = *b;
 		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
 		currentScore = this->min_value(&currentBoard);
@@ -78,8 +81,8 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	}
 	col = get<0>(bestMove);
 	row = get<1>(bestMove);
-	std::cout << "Col: " << col;
-	std::cout << "row: " << row;
+	cout << "Col: " << col;
+	cout << "row: " << row;
 	return; 
 }
 
