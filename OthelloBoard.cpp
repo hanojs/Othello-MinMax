@@ -196,6 +196,8 @@ int OthelloBoard::get_num_possible_moves(char color) {
 		for (int row = 0; row < this->num_rows; row++) 
 			if (this->is_legal_move(col, row, color))
 				num_moves++;
+	
+	return num_moves;
 }
 //Returns a vector of int touples (col, row) of valid moves
 //Should be paralelized if we have a larger board (like 8x8 or so)
@@ -208,8 +210,5 @@ vector<tuple<int, int>> OthelloBoard::get_possible_moves(char color) {
 				tuple<int, int> tempTuple (std::make_pair(col, row));
 				possible_moves.push_back(tempTuple);
 			}
-	
-	for( tuple<int, int> x : possible_moves) {
-		std::cout << "Get possible possibleMoves: " << std::get<0>(x) << " and " <<  std::get<1>(x) << std::endl;
-	}
+	return possible_moves;
 }	
