@@ -70,7 +70,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	move bestMove;
 	cout << "Getting best move... \n" << std::endl;
 	for( move x : b->get_possible_moves(this->symbol)){
-
+			
 		cout << "possibleMoves: " << get<0>(x) << " and " <<  get<1>(x) << std::endl;
 		currentBoard = *b;
 		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
@@ -107,7 +107,7 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
 
 int MinimaxPlayer::getGoodness(OthelloBoard* b) {
 	int goodness = 0;
-	
+	/*
 	if (b->get_cell(0,0) == this->symbol)
 		goodness += 10;
 	else if(!b->is_cell_empty(0, 0))
@@ -127,7 +127,7 @@ int MinimaxPlayer::getGoodness(OthelloBoard* b) {
 		goodness += 10;
 	else if(!b->is_cell_empty(3, 3))
 		goodness -= 10;
-
+	*/
 
 	if(this->symbol == 'O')
 		goodness += (b->count_score('O') - b->count_score('X')) * 2;
