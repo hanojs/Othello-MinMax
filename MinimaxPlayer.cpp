@@ -94,7 +94,7 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
 	vector<OthelloBoard> successorStates;
 
 	for(auto&& x : possibleMoves){ //Iterate through all the tuples in the possible moves
-		OthelloBoard tempBoard(currentBoard);
+		OthelloBoard tempBoard(*currentBoard);
 		tempBoard.play_move(get<0>(x), get<1>(x), this->symbol); 
 		successorStates.push_back (tempBoard);
 	}
