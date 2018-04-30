@@ -8,6 +8,8 @@
 #include <assert.h>
 #include "OthelloBoard.h"
 #include <tuple>
+#include <iostream>
+
 
 
 using std::tuple;
