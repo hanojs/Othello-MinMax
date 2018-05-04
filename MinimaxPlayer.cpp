@@ -77,7 +77,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 }
 
 //Min_value utility function for minimax (get_move)
-int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
+int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 	
 	//gets the opponent's symbol
 	char opponent;
@@ -102,6 +102,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
 
 //Max_value utility function for minimax (get_move)
 int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
+
 	if(!currentBoard->has_legal_moves_remaining(this->get_symbol() )){
 		return utility(currentBoard, this->get_symbol() );	
 	}
@@ -109,7 +110,7 @@ int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 
 	//go through all possible moves after this
 	for( auto x : this->getSuccessorStates(currentBoard, this->get_symbol() )){  
-		maxValue = max(maxValue, this->min_value(&x, opponent));
+		maxValue = max(maxValue, this->min_value(&x));
 	}
 
 	return maxValue;
