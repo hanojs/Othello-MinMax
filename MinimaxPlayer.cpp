@@ -35,36 +35,33 @@ MinimaxPlayer::~MinimaxPlayer() {
 
 
 int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
-	char opponent;
-	if (this->symbol == 'X') {
-		opponent = 'O';
-	}else {
-		opponent = 'X';
-	}
-	
 	if(!currentBoard->has_legal_moves_remaining(player)){
 		return getGoodness(currentBoard, player);	
 	}
 	int minValue = std::numeric_limits<int>::max();
 
 	for( auto x : this->getSuccessorStates(currentBoard, player)){ //go through all possible moves after this
-		minValue = min(minValue, this->max_value(&x, opponent));
+		minValue = min(minValue, this->max_value(&x));
 	}
 
 	return minValue;
 }
 
 
-int MinimaxPlayer::max_value(OthelloBoard* currentBoard, char player){
+int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	char opponent;
-	
+	if (this->get_symbol() == 'X') {
+		opponent = 'O';
+	}else {
+		opponent = 'X';
+	}
 
-	if(!currentBoard->has_legal_moves_remaining(player)){
-		return getGoodness(currentBoard, player);	
+	if(!currentBoard->has_legal_moves_remaining(this->get_symbol() )){
+		return getGoodness(currentBoard, this->get_symbol() );	
 	}
 	int maxValue = std::numeric_limits<int>::lowest();
 
-	for( auto x : this->getSuccessorStates(currentBoard, player)){  //go through all possible moves after this
+	for( auto x : this->getSuccessorStates(currentBoard, this->get_symbol() )){  //go through all possible moves after this
 		maxValue = max(maxValue, this->min_value(&x, opponent));
 	}
 
@@ -80,13 +77,13 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	int currentScore;
 	move bestMove;
 	char opponent;
-	if (this->symbol == 'X') {
+	if (this->get_symbol()  == 'X') {
 		opponent = 'O';
 	}else {
 		opponent = 'X';
 	}
 
-	for( auto x : b->get_possible_moves(this->symbol)){
+	for( auto x : b->get_possible_moves(this->get_symbol())){
 		currentBoard = *b;
 		currentScore = this->min_value(&currentBoard, opponent);
 		if(currentScore > bestScore){
@@ -96,7 +93,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	}
 	col = get<0>(bestMove);
 	row = get<1>(bestMove);
-	currentBoard.play_move(col, row, this->symbol);
+	currentBoard.play_move(col, row, this->get_symbol());
 	return; 
 }
 
@@ -125,19 +122,18 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
  * ********************************/
 int MinimaxPlayer::getGoodness(OthelloBoard* b, char player) {
 	int goodness = 0;
-			
 	char opponent;
 
-	if (this->symbol == 'X') {
+	if (this->get_symbol() == 'X') {
 		opponent = 'O';
 	}else {
 		opponent = 'X';
 	}
 
-	if(player == this->symbol){
-		goodness = (b->count_score(this->symbol) - b->count_score(opponent));
+	if(player == this->get_symbol()){
+		goodness = (b->count_score(this->get_symbol()) - b->count_score(opponent));
 	} else {	
-		goodness = (b->count_score(opponent) - b->count_score(this->symbol));
+		goodness = (b->count_score(opponent) - b->count_score(this->get_symbol()));
 	}
 
 	return goodness;
