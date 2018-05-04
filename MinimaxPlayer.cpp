@@ -110,13 +110,13 @@ int MinimaxPlayer::getGoodness(OthelloBoard* b) {
 
 	if(this->symbol == 'X'){
 		goodness = (b->count_score('O') - b->count_score('X'));
-		if(!b->has_legal_moves_remaining(this->symbol) && goodess < 1){ //if minimax lost, subtract points
+		if(!b->has_legal_moves_remaining(this->symbol) && goodness < 1){ //if minimax lost, subtract points
 			goodness -= 100;
 		}
 			
 	} else {	
 		goodness = (b->count_score('X') - b->count_score('O'));
-		if(!b->has_legal_moves_remaining(this->symbol) && goodess > 0){ //if minimax won, add points
+		if(!b->has_legal_moves_remaining(this->symbol) && goodness > 0){ //if minimax won, add points
 			goodness += 100;
 		}
 	}
