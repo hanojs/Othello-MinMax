@@ -3,6 +3,9 @@
  *
  *  Created on: Apr 17, 2015
  *      Author: wong
+ * 
+ * Student edits: Jonah Spencer
+ * 	
  */
 
 #include <tuple>
