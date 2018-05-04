@@ -34,24 +34,38 @@ MinimaxPlayer::~MinimaxPlayer() {
 }
 
 
-int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
-
+int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
+	char opponent;
+	if (this->symbol == 'X') {
+		opponent = 'O';
+	}else {
+		opponent = 'X';
+	}
+	
+	if(!currentBoard->has_legal_moves_remaining(player)){
+		return getGoodness(currentBoard, player);	
+	}
 	int minValue = std::numeric_limits<int>::max();
 
-	for( auto x : this->getSuccessorStates(currentBoard)){ //go through all possible moves after this
-		minValue = min(minValue, this->max_value(&x));
+	for( auto x : this->getSuccessorStates(currentBoard, player)){ //go through all possible moves after this
+		minValue = min(minValue, this->max_value(&x, opponent));
 	}
 
 	return minValue;
 }
 
 
-int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
+int MinimaxPlayer::max_value(OthelloBoard* currentBoard, char player){
+	char opponent;
+	
 
+	if(!currentBoard->has_legal_moves_remaining(player)){
+		return getGoodness(currentBoard, player);	
+	}
 	int maxValue = std::numeric_limits<int>::lowest();
 
-	for( auto x : this->getSuccessorStates(currentBoard)){  //go through all possible moves after this
-		maxValue = max(maxValue, this->min_value(&x));
+	for( auto x : this->getSuccessorStates(currentBoard, player)){  //go through all possible moves after this
+		maxValue = max(maxValue, this->min_value(&x, opponent));
 	}
 
 	return maxValue;
@@ -65,12 +79,15 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	int bestScore = std::numeric_limits<int>::lowest();
 	int currentScore;
 	move bestMove;
-	cout << "Getting best move... \n" << std::endl;
-	for( move x : b->get_possible_moves(this->symbol)){
-			
-		cout << "possibleMoves: " << get<0>(x) << " and " <<  get<1>(x) << std::endl;
+	if (this->symbol == 'X') {
+		opponent = 'O';
+	}else {
+		opponent = 'X';
+	}
+
+	for( auto x : b->get_possible_moves(this->symbol)){
 		currentBoard = *b;
-		currentScore = this->min_value(&currentBoard);
+		currentScore = this->min_value(&currentBoard, opponent);
 		if(currentScore > bestScore){
 			bestScore = currentScore;
 			bestMove  = x;
@@ -79,8 +96,6 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	col = get<0>(bestMove);
 	row = get<1>(bestMove);
 	currentBoard.play_move(col, row, this->symbol);
-	cout << "Col: " << col;
-	cout << "row: " << row;
 	return; 
 }
 
@@ -88,34 +103,39 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 
 
 
-
-vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoard){
+//Gets all possible states within one move of the current board
+vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoard, char player){
 	
-	move_vector possibleMoves = currentBoard->get_possible_moves(this->symbol);
+	move_vector possibleMoves = currentBoard->get_possible_moves(player);
 	vector<OthelloBoard> successorStates;
 
 	for(auto&& x : possibleMoves){ //Iterate through all the tuples in the possible moves
 		OthelloBoard tempBoard(*currentBoard);
-		tempBoard.play_move(get<0>(x), get<1>(x), this->symbol); 
+		tempBoard.play_move(get<0>(x), get<1>(x), player); 
 		successorStates.push_back (tempBoard);
 	}
 	return successorStates;
 }
 
-int MinimaxPlayer::getGoodness(OthelloBoard* b) {
-	int goodness = 0;
 
-	if(this->symbol == 'X'){
-		goodness = (b->count_score('O') - b->count_score('X'));
-		if(!b->has_legal_moves_remaining(this->symbol) && goodness < 1){ //if minimax lost, subtract points
-			goodness -= 4;
-		}
-			
+/***********************************
+ * Utility function
+ * Returns the goodness of a terminal node. 
+ * ********************************/
+int MinimaxPlayer::getGoodness(OthelloBoard* b, char player) {
+	int goodness = 0;
+	char opponent;
+
+	if (this->symbol == 'X') {
+		opponent = 'O';
+	}else {
+		opponent = 'X';
+	}
+
+	if(player == this->symbol){
+		goodness = (b->count_score(this->symbol) - b->count_score(opponet));
 	} else {	
-		goodness = (b->count_score('X') - b->count_score('O'));
-		if(!b->has_legal_moves_remaining(this->symbol) && goodness > 0){ //if minimax won, add points
-			goodness += 4;
-		}
+		goodness = (b->count_score(opponet) - b->count_score(this->symbol));
 	}
 
 	return goodness;

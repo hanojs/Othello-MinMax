@@ -183,7 +183,7 @@ int OthelloBoard::count_score(char symbol) const {
 }
 
 void OthelloBoard::play_move(int col, int row, char symbol) {
-	//std::cout << "\nCol " << col << " row " << row << std::endl;
+	std::cout << "\nCol " << col << " row " << row << std::endl;
 	set_cell(col, row, symbol);
 	flip_pieces(col, row, symbol);
 }
@@ -206,7 +206,7 @@ vector<tuple<int, int>> OthelloBoard::get_possible_moves(char color) {
 	for (int col = 0; col < this->get_num_cols(); col++)
 		for (int row = 0; row < this->get_num_rows(); row++)
 			if (this->is_legal_move(col, row, color)){
-				//std::cout << "get possible moves Possible mve: Col " << col << " row " << row << std::endl;
+				std::cout << "get possible moves Possible mve: Col " << col << " row " << row << std::endl;
 				tuple<int, int> tempTuple (std::make_pair(col, row));
 				possible_moves.push_back(tempTuple);
 			}
