@@ -33,7 +33,7 @@ MinimaxPlayer::~MinimaxPlayer() {
 
 }
 
-
+//min part of minimax
 int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
 	if(!currentBoard->has_legal_moves_remaining(player)){
 		return utility(currentBoard, player);	
@@ -47,7 +47,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
 	return minValue;
 }
 
-//returns the 
+//Max part of minimax
 int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	char opponent;
 	if (this->get_symbol() == 'X') {
