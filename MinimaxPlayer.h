@@ -46,8 +46,8 @@ public:
 
 private:
 	int max_value(OthelloBoard* currentBoard);
-	int min_value(OthelloBoard* currentBoard, char player);
-	int utility(OthelloBoard* b, char player);
+	int min_value(OthelloBoard* currentBoard);
+	int utility(OthelloBoard* b);
 
 
 	vector<OthelloBoard> getSuccessorStates(OthelloBoard* currentBoard, char player);
