@@ -104,7 +104,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 
 	if(!currentBoard->has_legal_moves_remaining(this->get_symbol() )){
-		return utility(currentBoard, this->get_symbol() );	
+		return utility(currentBoard);	
 	}
 	int maxValue = std::numeric_limits<int>::lowest();
 
