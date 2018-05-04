@@ -30,12 +30,12 @@ public:
 	 * Destructor
 	 */
 	virtual ~MinimaxPlayer();
-	int max_value(OthelloBoard* currentBoard);
-	int min_value(OthelloBoard* currentBoard);
-	int getGoodness(OthelloBoard* b);
+	int max_value(OthelloBoard* currentBoard, char player);
+	int min_value(OthelloBoard* currentBoard, char player);
+	int getGoodness(OthelloBoard* b, char player);
 
 
-	vector<OthelloBoard> getSuccessorStates(OthelloBoard* currentBoard);
+	vector<OthelloBoard> getSuccessorStates(OthelloBoard* currentBoard, char player);
 	/**
 	 * @param b The board object for the current state of the board
 	 * @param col Holds the return value for the column of the move
