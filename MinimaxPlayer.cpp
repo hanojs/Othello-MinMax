@@ -36,7 +36,7 @@ MinimaxPlayer::~MinimaxPlayer() {
 
 int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
 	if(!currentBoard->has_legal_moves_remaining(player)){
-		return getGoodness(currentBoard, player);	
+		return utility(currentBoard, player);	
 	}
 	int minValue = std::numeric_limits<int>::max();
 
@@ -57,7 +57,7 @@ int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	}
 
 	if(!currentBoard->has_legal_moves_remaining(this->get_symbol() )){
-		return getGoodness(currentBoard, this->get_symbol() );	
+		return utility(currentBoard, this->get_symbol() );	
 	}
 	int maxValue = std::numeric_limits<int>::lowest();
 
@@ -120,7 +120,7 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
  * Utility function
  * Returns the goodness of a terminal node. 
  * ********************************/
-int MinimaxPlayer::getGoodness(OthelloBoard* b, char player) {
+int MinimaxPlayer::utility(OthelloBoard* b, char player) {
 	int goodness = 0;
 	char opponent;
 
@@ -131,9 +131,9 @@ int MinimaxPlayer::getGoodness(OthelloBoard* b, char player) {
 	}
 
 	if(player == this->get_symbol()){
-		goodness = (b->count_score(this->get_symbol()) - b->count_score(opponent));
-	} else {	
 		goodness = (b->count_score(opponent) - b->count_score(this->get_symbol()));
+	} else {	
+		goodness = (b->count_score(this->get_symbol()) - b->count_score(opponent));
 	}
 
 	return goodness;
