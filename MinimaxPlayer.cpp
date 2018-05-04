@@ -79,6 +79,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	int bestScore = std::numeric_limits<int>::lowest();
 	int currentScore;
 	move bestMove;
+	char opponent;
 	if (this->symbol == 'X') {
 		opponent = 'O';
 	}else {
@@ -124,6 +125,7 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
  * ********************************/
 int MinimaxPlayer::getGoodness(OthelloBoard* b, char player) {
 	int goodness = 0;
+			
 	char opponent;
 
 	if (this->symbol == 'X') {
@@ -133,9 +135,9 @@ int MinimaxPlayer::getGoodness(OthelloBoard* b, char player) {
 	}
 
 	if(player == this->symbol){
-		goodness = (b->count_score(this->symbol) - b->count_score(opponet));
+		goodness = (b->count_score(this->symbol) - b->count_score(opponent));
 	} else {	
-		goodness = (b->count_score(opponet) - b->count_score(this->symbol));
+		goodness = (b->count_score(opponent) - b->count_score(this->symbol));
 	}
 
 	return goodness;
