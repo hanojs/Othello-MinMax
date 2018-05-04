@@ -35,9 +35,7 @@ MinimaxPlayer::~MinimaxPlayer() {
 
 
 int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
-	if(!currentBoard->has_legal_moves_remaining(this->symbol)){
-		return getGoodness(currentBoard);
-	}
+
 	int minValue = std::numeric_limits<int>::max();
 
 	for( auto x : this->getSuccessorStates(currentBoard)){ //go through all possible moves after this
@@ -49,9 +47,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 
 
 int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
-	if(!currentBoard->has_legal_moves_remaining(this->symbol)){
-		return getGoodness(currentBoard);
-	}
+
 	int maxValue = std::numeric_limits<int>::lowest();
 
 	for( auto x : this->getSuccessorStates(currentBoard)){  //go through all possible moves after this
