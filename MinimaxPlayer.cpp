@@ -47,7 +47,7 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard, char player){
 	return minValue;
 }
 
-
+//returns the 
 int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	char opponent;
 	if (this->get_symbol() == 'X') {
@@ -82,7 +82,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	}else {
 		opponent = 'X';
 	}
-
+	//initial maximize function -- keeps track of the best move
 	for( auto x : b->get_possible_moves(this->get_symbol())){
 		currentBoard = *b;
 		currentScore = this->min_value(&currentBoard, opponent);
@@ -121,7 +121,7 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
  * Returns the goodness of a terminal node. 
  * ********************************/
 int MinimaxPlayer::utility(OthelloBoard* b, char player) {
-	int goodness = 0;
+	//int goodness = 0;
 	char opponent;
 
 	if (this->get_symbol() == 'X') {
@@ -130,13 +130,16 @@ int MinimaxPlayer::utility(OthelloBoard* b, char player) {
 		opponent = 'X';
 	}
 
-	if(player == this->get_symbol()){
+	/*if(player == this->get_symbol()){
 		goodness = (b->count_score(opponent) - b->count_score(this->get_symbol()));
 	} else {	
 		goodness = (b->count_score(this->get_symbol()) - b->count_score(opponent));
 	}
-
+	
 	return goodness;
+	*/
+	return (b->count_score(this->get_symbol()) - b->count_score(opponent));
+
 } 
 
 
