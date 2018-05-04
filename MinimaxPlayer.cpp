@@ -104,13 +104,14 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 //Gets all possible states within one move of the current board
 vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoard, char player){
 	
-	move_vector possibleMoves = currentBoard->get_possible_moves(player);
 	vector<OthelloBoard> successorStates;
 
-	for(auto&& x : possibleMoves){ //Iterate through all the tuples in the possible moves
+	for(auto x : currentBoard->get_possible_moves(player)){ //Iterate through all the moves possible
+
 		OthelloBoard tempBoard(*currentBoard);
 		tempBoard.play_move(get<0>(x), get<1>(x), player); 
 		successorStates.push_back (tempBoard);
+
 	}
 	return successorStates;
 }
@@ -118,10 +119,10 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
 
 /***********************************
  * Utility function
- * Returns the goodness of a terminal node. 
+ * Returns the goodness of a terminal node for the minimax player. 
  * ********************************/
 int MinimaxPlayer::utility(OthelloBoard* b, char player) {
-	//int goodness = 0;
+
 	char opponent;
 
 	if (this->get_symbol() == 'X') {
@@ -130,14 +131,6 @@ int MinimaxPlayer::utility(OthelloBoard* b, char player) {
 		opponent = 'X';
 	}
 
-	/*if(player == this->get_symbol()){
-		goodness = (b->count_score(opponent) - b->count_score(this->get_symbol()));
-	} else {	
-		goodness = (b->count_score(this->get_symbol()) - b->count_score(opponent));
-	}
-	
-	return goodness;
-	*/
 	return (b->count_score(this->get_symbol()) - b->count_score(opponent));
 
 } 
