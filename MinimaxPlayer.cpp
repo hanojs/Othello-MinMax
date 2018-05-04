@@ -73,7 +73,6 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 			
 		cout << "possibleMoves: " << get<0>(x) << " and " <<  get<1>(x) << std::endl;
 		currentBoard = *b;
-		currentBoard.play_move(get<0>(x), get<1>(x), this->symbol);
 		currentScore = this->min_value(&currentBoard);
 		if(currentScore > bestScore){
 			bestScore = currentScore;
@@ -82,6 +81,7 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	}
 	col = get<0>(bestMove);
 	row = get<1>(bestMove);
+	currentBoard.play_move(col, row, this->symbol);
 	cout << "Col: " << col;
 	cout << "row: " << row;
 	return; 
@@ -107,32 +107,19 @@ vector<OthelloBoard> MinimaxPlayer::getSuccessorStates(OthelloBoard* currentBoar
 
 int MinimaxPlayer::getGoodness(OthelloBoard* b) {
 	int goodness = 0;
-	/*
-	if (b->get_cell(0,0) == this->symbol)
-		goodness += 10;
-	else if(!b->is_cell_empty(0, 0))
-		goodness -= 10;
 
-	if (b->get_cell(0,3) == this->symbol)
-		goodness += 10;
-	else if(!b->is_cell_empty(3, 3))
-		goodness -= 10;
-
-	if (b->get_cell(3,3) == this->symbol)
-		goodness += 10;
-	else if(!b->is_cell_empty(3, 3))
-		goodness -= 10;
-	
-	if (b->get_cell(3,0) == this->symbol)
-		goodness += 10;
-	else if(!b->is_cell_empty(3, 3))
-		goodness -= 10;
-	*/
-
-	if(this->symbol == 'X')
+	if(this->symbol == 'X'){
 		goodness = (b->count_score('O') - b->count_score('X'));
-	else
+		if(!b->has_legal_moves_remaining(this->symbol) && goodess < 1){ //if minimax lost, subtract points
+			goodness -= 100;
+		}
+			
+	} else {	
 		goodness = (b->count_score('X') - b->count_score('O'));
+		if(!b->has_legal_moves_remaining(this->symbol) && goodess > 0){ //if minimax won, add points
+			goodness += 100;
+		}
+	}
 
 	return goodness;
 } 
