@@ -7,8 +7,8 @@
 
 #include <tuple>
 #include <iostream>
-#include <assert.h>
 #include <vector>
+#include <limits>
 #include <algorithm>    // std::max
 #include "MinimaxPlayer.h"
 #include "OthelloBoard.h"
@@ -38,13 +38,13 @@ int MinimaxPlayer::min_value(OthelloBoard* currentBoard){
 	if(!currentBoard->has_legal_moves_remaining(this->symbol)){
 		return getGoodness(currentBoard);
 	}
-	int value = 999999;
+	int minValue = std::numeric_limits<int>::max();
 
-	for( auto x : this->getSuccessorStates(currentBoard)){
-		value = min(value, this->max_value(&x));
+	for( auto x : this->getSuccessorStates(currentBoard)){ //go through all possible moves after this
+		minValue = min(minValue, this->max_value(&x));
 	}
 
-	return value;
+	return minValue;
 }
 
 
@@ -52,13 +52,13 @@ int MinimaxPlayer::max_value(OthelloBoard* currentBoard){
 	if(!currentBoard->has_legal_moves_remaining(this->symbol)){
 		return getGoodness(currentBoard);
 	}
-	int value = -999999;
+	int maxValue = std::numeric_limits<int>::lowest();
 
-	for( auto x : this->getSuccessorStates(currentBoard)){
-		value = max(value, this->min_value(&x));
+	for( auto x : this->getSuccessorStates(currentBoard)){  //go through all possible moves after this
+		maxValue = max(maxValue, this->min_value(&x));
 	}
 
-	return value;
+	return maxValue;
 } 
 
 void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
@@ -66,7 +66,8 @@ void MinimaxPlayer::get_move(OthelloBoard* b, int& col, int& row) {
 	//Pretty much max function that keeps track of the first-level of moves so we can pass those back
 
 	OthelloBoard currentBoard((OthelloBoard) *b);
-	int bestScore = -999999, currentScore;
+	int bestScore = std::numeric_limits<int>::lowest();
+	int currentScore;
 	move bestMove;
 	cout << "Getting best move... \n" << std::endl;
 	for( move x : b->get_possible_moves(this->symbol)){
@@ -111,13 +112,13 @@ int MinimaxPlayer::getGoodness(OthelloBoard* b) {
 	if(this->symbol == 'X'){
 		goodness = (b->count_score('O') - b->count_score('X'));
 		if(!b->has_legal_moves_remaining(this->symbol) && goodness < 1){ //if minimax lost, subtract points
-			goodness -= 100;
+			goodness -= 4;
 		}
 			
 	} else {	
 		goodness = (b->count_score('X') - b->count_score('O'));
 		if(!b->has_legal_moves_remaining(this->symbol) && goodness > 0){ //if minimax won, add points
-			goodness += 100;
+			goodness += 4;
 		}
 	}
 
